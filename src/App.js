@@ -16,11 +16,20 @@ class App extends React.Component {
     const target = event.target;
     const name = target.name;
     const value = target.value;
-    this.setState({[name]: value})
+    if (name === "inputText") {
+      
+      if (value.endsWith(this.state.quote.charAt(this.state.inputText.length))){
+        this.setState({ [name]: value })
+      } else {
+        this.setState({ [name]: value.slice(0,value.length - 1) })
+      }
+    } else {
+      this.setState({ [name]: value })
+    }
   }
 
   newCard() {
-    this.ready ? this.setState({ ready: false }) : this.setState({ ready: true })
+    this.state.ready ? this.setState({ ready: false }) : this.setState({ ready: true })
   }
 
   handleApi = quote => {
@@ -29,7 +38,7 @@ class App extends React.Component {
 
   render() {
     let apiCall;
-    if (this.state.ready === true) {
+    if (this.state.ready === true && this.state.userID !== "" && this.state.token !== "") {
       apiCall = <Api userID={this.state.userID} token={this.state.token} quote={this.handleApi}/>
     } else {
       apiCall = ""
@@ -80,6 +89,7 @@ class App extends React.Component {
             <input
             type="text" 
             name="inputText"
+            value={this.state.inputText}
             onChange={this.handleChange} />
           </form>
         </body>
