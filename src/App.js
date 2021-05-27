@@ -17,13 +17,13 @@ class App extends React.Component {
     const name = target.name;
     const value = target.value;
     if (name === "inputText") {
-      
       if (value.endsWith(this.state.quote.charAt(this.state.inputText.length))){
         this.setState({ [name]: value })
       } else {
         this.setState({ [name]: value.slice(0,value.length - 1) })
       }
-    } else {
+    } 
+  else {
       this.setState({ [name]: value })
     }
   }
@@ -56,7 +56,7 @@ class App extends React.Component {
           
           <form className="Login-form">
             <label>
-              userID
+              userID:
             </label>
             <input 
             name="userID" 
@@ -66,7 +66,7 @@ class App extends React.Component {
 
           <form className="Login-form">
             <label>
-              token
+              token:
             </label>
             <input 
             name="token" 
@@ -84,7 +84,7 @@ class App extends React.Component {
 
           <form className="App-text-form">
             <label>
-            Type Here
+            Type Here:
             </label>
             <input
             type="text" 
@@ -96,7 +96,7 @@ class App extends React.Component {
 
         <footer className="App-footer">
           <p>
-            Created 5-21 by Jacob Adams Using <a href="https://www.quotes.net/">quotes.net API</a>
+            Created 5-21 by Jacob Adams using <a href="https://www.quotes.net/">quotes.net API</a>
           </p>
         </footer>
 
