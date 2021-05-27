@@ -3,7 +3,8 @@
 }
 
 .App-logo {
-  height: 40vmin;
+  width: 200px;
+  height: 200px;
   pointer-events: none;
 }
 
@@ -16,11 +17,11 @@
 .App-header {
   padding-left: 20px;
   background-color: #282c34;
-  min-height: 5vh;
+  min-height: 20vh;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: left;
+  justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
 }
@@ -29,7 +30,7 @@
   background-color: #282c34;
   padding-left: 20%;
   padding-right: 20%;
-  min-height: 80vh;
+  min-height: 70vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -40,7 +41,7 @@
 
 .App-footer {
   background-color: #282c34;
-  min-height: 5vh;
+  min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -49,12 +50,24 @@
   color: white;
 }
 
-.App-header img {
-  width: 200px;
-  height: 200px;
+.Login-form {
+   display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
-input[type=text] {
+
+.Login-form input{
+  padding: 10px;
+  margin: 10px;
+  border: solid 2px #61dafb;
+  border-radius: 10px;
+  background-color: #ffffff;
+  width: 60%;
+}
+
+.App-text-form input[type=text] {
   padding: 10px;
   margin: 10px;
   border: solid 2px #61dafb;
@@ -71,6 +84,13 @@ input:focus,textarea:focus{
   color: #61dafb;
 }
 
+.TextCard {
+  padding: 50px;
+  border: solid white 2px ;
+  border-radius: 10px;
+  background-color: white;
+  color: black;
+}
 
 
 @keyframes App-logo-spin {

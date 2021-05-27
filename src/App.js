@@ -1,42 +1,93 @@
 import logo from './logo.svg';
 import './App.css';
 import React from 'react';
+import Api from './Api';
 
 
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {text: ""}
+    this.state = {userID: "", token: "", ready: false, inputText: "", quote: ""}
+    this.handleChange = this.handleChange.bind(this);
+    this.newCard = this.newCard.bind(this);
+  }
+  
+  handleChange(event) {
+    const target = event.target;
+    const name = target.name;
+    const value = target.value;
+    this.setState({[name]: value})
+  }
+
+  newCard() {
+    this.ready ? this.setState({ ready: false }) : this.setState({ ready: true })
+  }
+
+  handleApi = quote => {
+    this.setState({ quote: quote })
   }
 
   render() {
+    let apiCall;
+    if (this.state.ready === true) {
+      apiCall = <Api userID={this.state.userID} token={this.state.token} quote={this.handleApi}/>
+    } else {
+      apiCall = ""
+    }
+
+
     return (
       <div className="App">
         <header className="App-header">
 
           <h1>
             Typing Race
-        </h1>
-          <img className="headerImage" src={logo} />
+          </h1>
+          <img className="App-logo" src={logo} alt="react logo" />
+          
+          <form className="Login-form">
+            <label>
+              userID
+            </label>
+            <input 
+            name="userID" 
+            type="text"
+            onChange={this.handleChange}/>
+          </form>
+
+          <form className="Login-form">
+            <label>
+              token
+            </label>
+            <input 
+            name="token" 
+            type="text"
+            onChange={this.handleChange} />
+          </form>
+
+          <button onClick={this.newCard}>New Card</button>
         </header>
 
         <body className="App-body">
           <p>
-            {this.state.text}
-        </p>
+              {apiCall}
+          </p>
 
-          <forum className="App-text-forum">
+          <form className="App-text-form">
             <label>
-              Textbox
-          </label>
-            <input type="text" />
-          </forum>
+            Type Here
+            </label>
+            <input
+            type="text" 
+            name="inputText"
+            onChange={this.handleChange} />
+          </form>
         </body>
 
         <footer className="App-footer">
           <p>
-            Created 5-21 by Jacob Adams
-        </p>
+            Created 5-21 by Jacob Adams Using <a href="https://www.quotes.net/">quotes.net API</a>
+          </p>
         </footer>
 
       </div>
