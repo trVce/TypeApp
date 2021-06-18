@@ -1,110 +1,125 @@
+import React, { useState, useEffect } from 'react';
+import Api from './Api';
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
-import Api from './Api';
-
-
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {userID: "", token: "", ready: false, inputText: "", quote: ""}
-    this.handleChange = this.handleChange.bind(this);
-    this.newCard = this.newCard.bind(this);
-  }
+import Timer from './Timer';
+const App = () => {
+  const [userID, setUserID] = useState("");
+  const [token, setToken] = useState("");
+  const [inputText, setInputText] = useState("");
   
-  handleChange(event) {
-    const target = event.target;
-    const name = target.name;
-    const value = target.value;
-    if (name === "inputText") {
-      if (value.endsWith(this.state.quote.charAt(this.state.inputText.length))){
-        this.setState({ [name]: value })
-      } else {
-        this.setState({ [name]: value.slice(0,value.length - 1) })
-      }
-    } 
-  else {
-      this.setState({ [name]: value })
+  const [quote, setQuote] = useState("");
+  const [time, setTime] = useState(0);
+  
+  const [ready, setReady] = useState(false);
+  const [isDone, setDone] = useState(false);
+
+  const [timerObj, setTimerObj] = useState("");
+
+  function handleUserIdForum(event) {
+    setUserID(event.target.value);
+  }
+
+  function handleTokenForum(event) {
+    setToken(event.target.value);
+  }
+
+  function handleInputForum(event) {
+    if (event.target.value.endsWith(quote.charAt(inputText.length))) {
+      setInputText(event.target.value);
+    }
+
+    if (quote === inputText && quote !== "") {
+      setDone(true);
+      setTimerObj("");
     }
   }
 
-  newCard() {
-    this.state.ready ? this.setState({ ready: false }) : this.setState({ ready: true })
-  }
-
-  handleApi = quote => {
-    this.setState({ quote: quote })
-  }
-
-  render() {
-    let apiCall;
-    if (this.state.ready === true && this.state.userID !== "" && this.state.token !== "") {
-      apiCall = <Api userID={this.state.userID} token={this.state.token} quote={this.handleApi}/>
+  function newCard() {
+    setReady(!ready);
+    setInputText("");
+    setDone(false);
+    if (timerObj === ""){
+      setTimerObj(<Timer timeFunction={setTime} />);
     } else {
-      apiCall = ""
+      setTimerObj("");
     }
+    
+  }
 
+  useEffect(() => {
+    if (ready === true && userID !== "" && token !== "") {
+        setReady(false);
+    }
+  }, [ready, token, userID]);
 
-    return (
-      <div className="App">
-        <header className="App-header">
+  return (
+    <div className="App">
+      <header className="App-header">
 
-          <h1>
-            Typing Race
+        <h1>
+          Typing Race
           </h1>
-          <img className="App-logo" src={logo} alt="react logo" />
-          
-          <form className="Login-form">
-            <label>
-              userID:
+        <img className="App-logo" src={logo} alt="react logo" />
+
+        <form className="Login-form">
+          <label>
+            userID:
             </label>
-            <input 
-            name="userID" 
+          <input
+            name="userID"
             type="text"
-            onChange={this.handleChange}/>
-          </form>
+            onChange={handleUserIdForum} />
+        </form>
 
-          <form className="Login-form">
-            <label>
-              token:
+        <form className="Login-form">
+          <label>
+            token:
             </label>
-            <input 
-            name="token" 
+          <input
+            name="token"
             type="text"
-            onChange={this.handleChange} />
-          </form>
+            onChange={handleTokenForum} />
+        </form>
 
-          <button onClick={this.newCard}>New Card</button>
-        </header>
+        <button onClick={newCard}>New Card</button>
+      </header>
 
-        <body className="App-body">
-          <p>
-              {apiCall}
-          </p>
+      <body className="App-body">
+        <p>
+          <Api
+            usr={userID}
+            tkn={token}
+            quotefunction={setQuote}
+            ready={ready}
+            isDone={isDone}
+            time={time} />
+        </p>
+        <p>
+          {timerObj}
+        </p>
 
-          <form className="App-text-form">
-            <label>
+        <form className="App-text-form">
+          <label>
             Type Here:
             </label>
-            <input
-            type="text" 
+          <input
+            type="text"
             name="inputText"
-            value={this.state.inputText}
-            onChange={this.handleChange} />
-          </form>
-        </body>
+            value={inputText}
+            onChange={handleInputForum} />
+        </form>
+       
+      </body>
 
-        <footer className="App-footer">
-          <p>
-            Created 5-21 by Jacob Adams using <a href="https://www.quotes.net/">quotes.net API</a>
-          </p>
-        </footer>
+      <footer className="App-footer">
+        <p>
+          Created 5-21 by Jacob Adams using <a href="https://www.quotes.net/">quotes.net API</a>
+        </p>
+      </footer>
 
-      </div>
-    );
-  }
-
- 
-}
+    </div>
+  );
+};
 
 export default App;

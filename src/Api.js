@@ -1,37 +1,47 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react';
 import './App.css';
-class Api extends Component {
-    constructor(props) {
 
-        super(props);
-        this.state = { text: "", author: "", json: {}};
-    }
+const Api = (props) => {
+    const [text, setText] = useState("");
+    const [author, setAuthor] = useState("");
+    useEffect(() =>  {
+        if(props.ready === true){
+            const url = "https://www.abbreviations.com/services/v2/quotes.php?uid=" + props.usr +
+                "&tokenid=" + props.tkn + "&searchtype=RANDOM&format=json";
+            fetch(url)
+                .then(res => res.json())
+                .then(res => {
+                    try {
+                        setText(res.result.quote);
+                        setAuthor(res.result.author);
+                        props.quotefunction(res.result.quote);
+                    }
+                    catch (e) {
+                        setText("Please check UserID and Token");
+                        setAuthor("Error");
+                    }
+                });
+        }
+
+        if(props.isDone === true){
+            let words = text;
+            words = words.replace(/(^\s*)|(\s*$)/gi, "");
+            words = words.replace(/[ ]{2,}/gi, " ");
+            words = words.replace(/\n /, "\n");
+            let wpm = words.split(' ').length;
+            setAuthor(wpm + " words " + " in " + (props.time + 1) + " seconds.");
+            setText(words);
+        }
+    }, [props, props.ready, props.isDone, text]);
 
     
-    componentDidMount() {
-        const url = "https://www.abbreviations.com/services/v2/quotes.php?uid=" + this.props.userID +
-        "&tokenid=" + this.props.token + "&searchtype=RANDOM&format=json";
 
-        fetch(url)
-            .then(res => res.json())
-            .then(res => {
-                this.setState({
-                    json: res,
-                    text: res.result.quote,
-                    author: res.result.author
-                })
-                this.props.quote(this.state.text)
-            });
-    }
-
-    render() {
-        return (
-            <div className="TextCard">
-                <h2>{this.state.author}</h2>
-                <p>{this.state.text}</p>
-            </div>
-        )
-    }
+    return(
+        <div className="TextCard">
+            <h2>{author}</h2>
+            <p>{text}</p>
+        </div>
+    );
    
-}
+};
 export default Api;
