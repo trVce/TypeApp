@@ -4,6 +4,7 @@ import './App.css';
 const Api = (props) => {
     const [text, setText] = useState("");
     const [author, setAuthor] = useState("");
+    const [wordCount, setWordCount] = useState("empty");
     useEffect(() =>  {
         if(props.ready === true){
             const url = "https://www.abbreviations.com/services/v2/quotes.php?uid=" + props.usr +
@@ -15,6 +16,7 @@ const Api = (props) => {
                         setText(res.result.quote);
                         setAuthor(res.result.author);
                         props.quotefunction(res.result.quote);
+
                     }
                     catch (e) {
                         setText("Please check UserID and Token");
@@ -23,16 +25,19 @@ const Api = (props) => {
                 });
         }
 
-        if(props.isDone === true){
-            let words = text;
-            words = words.replace(/(^\s*)|(\s*$)/gi, "");
-            words = words.replace(/[ ]{2,}/gi, " ");
-            words = words.replace(/\n /, "\n");
-            let wpm = words.split(' ').length;
-            setAuthor(wpm + " words " + " in " + (props.time + 1) + " seconds.");
-            setText(words);
+        if(text !== ""){
+            let word = text;
+            word = word.replace(/(^\s*)|(\s*$)/gi, "");
+            word = word.replace(/[ ]{2,}/gi, " ");
+            word = word.replace(/\n /, "\n");
+            setWordCount(word.split(' ').length);
         }
-    }, [props, props.ready, props.isDone, text]);
+
+        if(props.isDone === true){
+            setAuthor(wordCount + " words " + " in " + (props.time + 1) + " seconds.");
+            setText("");
+        }
+    }, [props, props.ready, props.isDone, text, wordCount]);
 
     
 
