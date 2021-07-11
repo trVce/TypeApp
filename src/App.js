@@ -15,7 +15,7 @@ const App = () => {
   const [isDone, setDone] = useState(false);
 
   const [timerObj, setTimerObj] = useState("");
-
+  const [start, setStart] = useState(false);
   function handleUserIdForum(event) {
     setUserID(event.target.value);
   }
@@ -28,14 +28,16 @@ const App = () => {
     if (event.target.value.endsWith(quote.charAt(inputText.length))) {
       setInputText(event.target.value);
     }
-
-    if (quote === inputText && quote !== "") {
+    if (quote === event.target.value && quote !== "") {
       setDone(true);
       setTimerObj("");
+      setInputText("");
     }
+    
   }
 
   function newCard() {
+    setStart(true);
     setReady(!ready);
     setInputText("");
     setDone(false);
@@ -93,23 +95,25 @@ const App = () => {
             quotefunction={setQuote}
             ready={ready}
             isDone={isDone}
-            time={time} />
+            time={time} 
+            />
         </p>
         <p>
           {timerObj}
         </p>
-
-        <form className="App-text-form">
+        {start ? 
+          <form className="App-text-form">
           <label>
             Type Here:
-            </label>
+          </label>
           <input
             type="text"
             name="inputText"
             value={inputText}
             onChange={handleInputForum} />
-        </form>
-       
+          </form> 
+        : null}
+        
       </body>
 
       <footer className="App-footer">

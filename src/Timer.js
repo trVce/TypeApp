@@ -14,8 +14,7 @@ const Timer = (props) => {
     }, [seconds, props]);
 
     return (
-        <div className="time">
-                {seconds}
+        <div>
         </div>
     );
 };
