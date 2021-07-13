@@ -75,7 +75,7 @@
   width: 60%;
 }
 
-.App-text-form input[type=text] {
+.App-text-entry input[type=text] {
   padding: 10px;
   margin: 10px;
   border: solid 2px #61dafb;

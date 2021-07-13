@@ -64,7 +64,7 @@ const App = () => {
           </h1>
         <img className="App-logo" src={logo} alt="react logo" />
 
-        <form className="Login-form">
+        <div className="Login-form">
           <label>
             userID:
             </label>
@@ -72,9 +72,9 @@ const App = () => {
             name="userID"
             type="text"
             onChange={handleUserIdForum} />
-        </form>
+        </div>
 
-        <form className="Login-form">
+        <div className="Login-form">
           <label>
             token:
             </label>
@@ -82,7 +82,7 @@ const App = () => {
             name="token"
             type="text"
             onChange={handleTokenForum} />
-        </form>
+        </div>
 
         <button onClick={newCard}>New Card</button>
       </header>
@@ -102,7 +102,7 @@ const App = () => {
           {timerObj}
         </p>
         {start ? 
-          <form className="App-text-form">
+          <div className="App-text-entry">
           <label>
             Type Here:
           </label>
@@ -111,7 +111,7 @@ const App = () => {
             name="inputText"
             value={inputText}
             onChange={handleInputForum} />
-          </form> 
+          </div> 
         : null}
         
       </body>
