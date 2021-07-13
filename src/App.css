@@ -100,6 +100,14 @@ input:focus,textarea:focus{
   color: black;
 }
 
+.FinishedCard {
+  padding: 50px;
+  border: solid white 2px ;
+  border-radius: 10px;
+  background-color: rgb(112, 223, 90);
+  color: black;
+}
+
 
 @keyframes App-logo-spin {
   from {

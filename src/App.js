@@ -9,6 +9,7 @@ const App = () => {
   const [inputText, setInputText] = useState("");
   
   const [quote, setQuote] = useState("");
+  const [wordCount, setWordCount] = useState(0);
   const [time, setTime] = useState(0);
   
   const [ready, setReady] = useState(false);
@@ -33,7 +34,6 @@ const App = () => {
       setTimerObj("");
       setInputText("");
     }
-    
   }
 
   function newCard() {
@@ -41,19 +41,27 @@ const App = () => {
     setReady(!ready);
     setInputText("");
     setDone(false);
+    setWordCount(0);
     if (timerObj === ""){
       setTimerObj(<Timer timeFunction={setTime} />);
     } else {
       setTimerObj("");
     }
-    
   }
 
   useEffect(() => {
     if (ready === true && userID !== "" && token !== "") {
         setReady(false);
     }
-  }, [ready, token, userID]);
+
+    if (inputText !== "") {
+      let words = inputText;
+      words = words.replace(/(^\s*)|(\s*$)/gi, "");
+      words = words.replace(/[ ]{2,}/gi, " ");
+      words = words.replace(/\n /, "\n");
+      setWordCount(Math.round((words.split(' ').length / time) * 60));
+    }
+  }, [ready, token, userID, inputText, time]);
 
   return (
     <div className="App">
@@ -80,7 +88,7 @@ const App = () => {
             </label>
           <input
             name="token"
-            type="text"
+            type="password"
             onChange={handleTokenForum} />
         </div>
 
@@ -100,6 +108,7 @@ const App = () => {
         </p>
         <p>
           {timerObj}
+          WPM: {wordCount}
         </p>
         {start ? 
           <div className="App-text-entry">
